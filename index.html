@@ -28,7 +28,6 @@
       body { background: white; margin: 0; padding: 0; }
       /* Critical fix to prevent URLs from printing next to text */
       a[href]:after { content: none !important; } 
-      a { text-decoration: none !important; color: black !important; }
       nav a[href]:after, header a[href]:after { content: ""; }
     }
   </style>
@@ -41,7 +40,6 @@
 
     // --- Inline Icon Components (Replaces lucide-react for standalone usage) ---
     const Users = ({className}) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>;
-    // Renamed Map to MapIcon to avoid shadowing the native JavaScript Map object
     const MapIcon = ({className}) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" x2="9" y1="3" y2="18"/><line x1="15" x2="15" y1="6" y2="21"/></svg>;
     const BookOpen = ({className}) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>;
     const Plus = ({className}) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><line x1="12" x2="12" y1="5" y2="19"/><line x1="5" x2="19" y1="12" y2="12"/></svg>;
@@ -50,6 +48,7 @@
     const Info = ({className}) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>;
     const Settings = ({className}) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>;
     const ChevronRight = ({className}) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="m9 18 6-6-6-6"/></svg>;
+    const ChevronDown = ({className}) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="m6 9 6 6 6-6"/></svg>;
     const Download = ({className}) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>;
     const ArrowLeft = ({className}) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>;
     const ArrowRight = ({className}) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>;
@@ -57,6 +56,28 @@
     const PlayCircle = ({className}) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>;
     const FileText = ({className}) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></svg>;
     const Loader2 = ({className}) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>;
+    const UploadCloud = ({className}) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"/><path d="M12 12v9"/><path d="m16 16-4-4-4 4"/></svg>;
+    const Save = ({className}) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>;
+
+    // --- Time Calculation Helpers ---
+    const parseTimeToMinutes = (timeStr) => {
+      if (!timeStr) return 0;
+      let minutes = 0;
+      const hMatch = timeStr.match(/(\d+)\s*h/i);
+      const mMatch = timeStr.match(/(\d+)\s*m/i);
+      if (hMatch) minutes += parseInt(hMatch[1], 10) * 60;
+      if (mMatch) minutes += parseInt(mMatch[1], 10);
+      return minutes;
+    };
+
+    const formatMinutesToTime = (totalMinutes) => {
+      if (totalMinutes === 0) return '';
+      const h = Math.floor(totalMinutes / 60);
+      const m = totalMinutes % 60;
+      if (h > 0 && m > 0) return `${h}h ${m}m`;
+      if (h > 0) return `${h}h`;
+      return `${m}m`;
+    };
 
     // --- Dynamic Google Sheets Backend ---
     const GOOGLE_SHEETS_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSAjiKztm7ZHeSqwyiQN48h1kycq53ktUY9vT5JPMnCDCfkhHxkbWQfCEsCnK4AOcAMkZxQbFaSqBEa/pub?output=csv";
@@ -64,7 +85,7 @@
     const STATUS_OPTIONS = {
       NONE: 'None',
       REQUIRED: 'Required',
-      HELPFUL: 'Helpful to Know',
+      HELPFUL: 'Recommended / Optional',
       CUSTOM: 'Highly Customized'
     };
 
@@ -82,16 +103,44 @@
 
     function App() {
       const [activeTab, setActiveTab] = useState('roles');
-      const [roles, setRoles] = useState([]);
+      
+      // Load initial state from Local Storage (or use defaults if empty)
+      const [roles, setRoles] = useState(() => {
+        const saved = localStorage.getItem('ns_journey_roles');
+        return saved ? JSON.parse(saved) : [];
+      });
+      const [mappings, setMappings] = useState(() => {
+        const saved = localStorage.getItem('ns_journey_mappings');
+        return saved ? JSON.parse(saved) : {};
+      });
+      const [autoIncludeSettings, setAutoIncludeSettings] = useState(() => {
+        const saved = localStorage.getItem('ns_journey_autoInclude');
+        return saved ? JSON.parse(saved) : {};
+      });
+
       const [newRoleName, setNewRoleName] = useState('');
       const [isGeneratingPdf, setIsGeneratingPdf] = useState(false);
-      const [mappings, setMappings] = useState({});
       const [selectedRoleForMapping, setSelectedRoleForMapping] = useState('');
       const [selectedRoleForOutput, setSelectedRoleForOutput] = useState('');
+      const [expandedAreas, setExpandedAreas] = useState({});
+      const [masterExpandedRoles, setMasterExpandedRoles] = useState({});
 
       const [taskDatabase, setTaskDatabase] = useState([]);
       const [isLoadingCatalog, setIsLoadingCatalog] = useState(true);
       const [catalogError, setCatalogError] = useState(null);
+
+      // Save to Local Storage whenever these specific states change
+      useEffect(() => {
+        localStorage.setItem('ns_journey_roles', JSON.stringify(roles));
+      }, [roles]);
+
+      useEffect(() => {
+        localStorage.setItem('ns_journey_mappings', JSON.stringify(mappings));
+      }, [mappings]);
+
+      useEffect(() => {
+        localStorage.setItem('ns_journey_autoInclude', JSON.stringify(autoIncludeSettings));
+      }, [autoIncludeSettings]);
 
       useEffect(() => {
         const fetchCatalog = async () => {
@@ -156,20 +205,27 @@
               const time = (r[3] && r[3].trim()) || (r[7] && r[7].trim()) || (r[9] && r[9].trim()) || null;
               const hasLink = links.length > 0;
 
-              // Identify section headers (rows with text but no links/reference numbers)
-              if (!hasLink && !refNumber && rawTaskName) {
-                 currentArea = cleanTaskName;
+              // Identify section headers (Process Areas). 
+              const isProcessArea = refNumber.toUpperCase() === 'PROCESS' || 
+                                    cleanTaskName.toUpperCase().includes('PROCESS') || 
+                                    (!hasLink && !time && rawTaskName && !refNumber.includes('.'));
+
+              if (isProcessArea) {
+                 let nameToUse = cleanTaskName;
+                 if (cleanTaskName.toUpperCase() === 'PROCESS') nameToUse = refNumber;
+                 
+                 currentArea = nameToUse.replace(/^PROCESS\s*[-:]?\s*/i, '').trim();
                  continue;
               }
 
               // Identify valid tasks
-              if (refNumber && rawTaskName) {
+              if (refNumber && rawTaskName && refNumber.toUpperCase() !== 'PROCESS') {
                  parsedTasks.push({
                    id: refNumber,
                    area: currentArea,
                    name: cleanTaskName,
                    time: time,
-                   links: links.length > 0 ? links : [{label: 'Resource Pending', url: '#'}] 
+                   links: hasLink ? links : [{label: 'Resource Pending', url: '#'}] 
                  });
               }
             }
@@ -206,9 +262,14 @@
       const handleRemoveRole = (e, roleToRemove) => {
         e.stopPropagation();
         setRoles(roles.filter(r => r !== roleToRemove));
+        
         const newMappings = { ...mappings };
         delete newMappings[roleToRemove];
         setMappings(newMappings);
+
+        const newAutoInclude = { ...autoIncludeSettings };
+        delete newAutoInclude[roleToRemove];
+        setAutoIncludeSettings(newAutoInclude);
         
         if (selectedRoleForMapping === roleToRemove) setSelectedRoleForMapping('');
         if (selectedRoleForOutput === roleToRemove) setSelectedRoleForOutput('');
@@ -221,7 +282,7 @@
       };
 
       const handleGenerateJourney = () => {
-        setSelectedRoleForOutput(selectedRoleForMapping);
+        setSelectedRoleForOutput(selectedRoleForMapping || '__ALL__');
         setActiveTab('output');
         window.scrollTo(0, 0);
       };
@@ -236,35 +297,124 @@
         }));
       };
 
+      const toggleArea = (area) => {
+        setExpandedAreas(prev => ({
+          ...prev,
+          [area]: !prev[area]
+        }));
+      };
+
+      const toggleMasterRole = (role) => {
+        setMasterExpandedRoles(prev => ({
+          ...prev,
+          [role]: !prev[role]
+        }));
+      };
+
+      const handleClearAllData = () => {
+        if (window.confirm("Are you sure you want to delete all roles and mapping progress? This cannot be undone.")) {
+          setRoles([]);
+          setMappings({});
+          setAutoIncludeSettings({});
+          setSelectedRoleForMapping('');
+          setSelectedRoleForOutput('');
+          localStorage.removeItem('ns_journey_roles');
+          localStorage.removeItem('ns_journey_mappings');
+          localStorage.removeItem('ns_journey_autoInclude');
+        }
+      };
+
+      const handleExportProgress = () => {
+        const data = { roles, mappings, autoIncludeSettings };
+        const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `NetSuite_Journey_Save_${new Date().toISOString().slice(0,10)}.json`;
+        a.click();
+        URL.revokeObjectURL(url);
+      };
+
+      const handleImportProgress = (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          try {
+            const data = JSON.parse(event.target.result);
+            if (data.roles && data.mappings) {
+              setRoles(data.roles);
+              setMappings(data.mappings);
+              setAutoIncludeSettings(data.autoIncludeSettings || {});
+              alert("Progress loaded successfully!");
+            } else {
+              alert("Invalid save file format.");
+            }
+          } catch (err) {
+            alert("Error reading file.");
+          }
+        };
+        reader.readAsText(file);
+        e.target.value = ''; // Reset input so the same file can be uploaded again if needed
+      };
+
       const generatePDF = () => {
         const element = document.getElementById('pdf-content');
         if (window.html2pdf && element) {
           setIsGeneratingPdf(true);
-          const originalScroll = window.scrollY;
-          window.scrollTo(0, 0);
           
-          const safeRoleName = selectedRoleForOutput.replace(/[^a-z0-9]/gi, '_').toLowerCase();
-          const opt = {
-            margin:       [0.5, 0.5, 0.5, 0.5],
-            filename:     `Learning_Journey_${safeRoleName}.pdf`,
-            image:        { type: 'jpeg', quality: 0.98 },
-            html2canvas:  { scale: 2, useCORS: true, scrollY: 0, windowY: 0 },
-            jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' },
-            enableLinks:  true 
-          };
+          let originalExpanded = {};
+          if (selectedRoleForOutput === '__ALL__') {
+            // Store current expansion states and force expand all roles
+            originalExpanded = { ...masterExpandedRoles };
+            const allExpanded = roles.reduce((acc, r) => ({...acc, [r]: true}), {});
+            setMasterExpandedRoles(allExpanded);
+          }
 
-          window.html2pdf().set(opt).from(element).save().then(() => {
-            setIsGeneratingPdf(false);
-            window.scrollTo(0, originalScroll); 
-          }).catch(err => {
-            console.error('PDF Generation Error:', err);
-            setIsGeneratingPdf(false);
-            window.scrollTo(0, originalScroll);
-            window.print();
-          });
+          // Delay slightly so React finishes rendering the expanded DOM
+          setTimeout(() => {
+              const originalScroll = window.scrollY;
+              window.scrollTo(0, 0);
+              
+              const safeRoleName = selectedRoleForOutput === '__ALL__' ? 'Master_All_Roles' : selectedRoleForOutput.replace(/[^a-z0-9]/gi, '_').toLowerCase();
+              const opt = {
+                margin:       0.4, 
+                filename:     `Learning_Journey_${safeRoleName}.pdf`,
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { scale: 2, useCORS: true, scrollY: 0, windowY: 0 },
+                jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' },
+                enableLinks:  true 
+              };
+
+              window.html2pdf().set(opt).from(element).save().then(() => {
+                setIsGeneratingPdf(false);
+                window.scrollTo(0, originalScroll); 
+                if (selectedRoleForOutput === '__ALL__') setMasterExpandedRoles(originalExpanded);
+              }).catch(err => {
+                console.error('PDF Generation Error:', err);
+                setIsGeneratingPdf(false);
+                window.scrollTo(0, originalScroll);
+                if (selectedRoleForOutput === '__ALL__') setMasterExpandedRoles(originalExpanded);
+              });
+          }, 300);
         } else {
           window.print();
         }
+      };
+
+      // Helper to evaluate the effective status of a task based on overrides
+      const getEffectiveStatus = (role, task) => {
+        const rawStatus = mappings[role]?.[task.id] || STATUS_OPTIONS.NONE;
+        const isAutoAddActive = autoIncludeSettings[role] || false;
+        
+        // Only modify if it's actually mapped to the journey, is an article (!task.time), and isn't Custom
+        if (rawStatus !== STATUS_OPTIONS.NONE && rawStatus !== STATUS_OPTIONS.CUSTOM) {
+          if (isAutoAddActive && !task.time) {
+            return STATUS_OPTIONS.HELPFUL;
+          }
+        }
+        
+        return rawStatus;
       };
 
       if (isLoadingCatalog) {
@@ -319,9 +469,35 @@
             </form>
 
             <div className="space-y-4">
-              <h3 className="text-sm font-semibold text-slate-400 uppercase tracking-wider border-b border-slate-100 pb-2">
-                {roles.length > 0 ? "Select a role to map training requirements:" : "Added Roles will appear here"}
-              </h3>
+              <div className="flex flex-col sm:flex-row sm:items-end justify-between border-b border-slate-100 pb-2 gap-3">
+                <h3 className="text-sm font-semibold text-slate-400 uppercase tracking-wider">
+                  {roles.length > 0 ? "Select a role to map training requirements:" : "Added Roles will appear here"}
+                </h3>
+                <div className="flex flex-wrap items-center gap-3">
+                  <label className="text-xs text-[#233D4C] hover:text-[#047050] font-medium transition-colors flex items-center cursor-pointer bg-slate-100 hover:bg-slate-200 px-3 py-1.5 rounded-md">
+                    <UploadCloud className="w-3.5 h-3.5 mr-1.5" />
+                    Load Save File
+                    <input type="file" accept=".json" onChange={handleImportProgress} className="hidden" />
+                  </label>
+                  {roles.length > 0 && (
+                    <>
+                      <button 
+                        onClick={handleExportProgress} 
+                        className="text-xs text-[#233D4C] hover:text-[#047050] font-medium transition-colors flex items-center bg-slate-100 hover:bg-slate-200 px-3 py-1.5 rounded-md"
+                      >
+                        <Save className="w-3.5 h-3.5 mr-1.5" />
+                        Export Work
+                      </button>
+                      <button 
+                        onClick={handleClearAllData} 
+                        className="text-xs text-red-500 hover:text-red-700 font-medium underline transition-colors px-1"
+                      >
+                        Clear All
+                      </button>
+                    </>
+                  )}
+                </div>
+              </div>
               
               {roles.length === 0 ? (
                 <div className="text-center py-10 text-slate-400 border-2 border-dashed border-slate-100 rounded-xl">
@@ -355,7 +531,7 @@
 
       const renderTaskMapping = () => (
         <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden print:hidden">
-          <div className="p-6 border-b border-slate-200 bg-slate-50 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div className="p-6 border-b border-slate-200 bg-slate-50 flex flex-col sm:flex-row sm:items-start justify-between gap-4">
             <div>
               <h2 className="text-xl font-semibold text-slate-800 flex items-center">
                 <MapIcon className="w-5 h-5 mr-2 text-[#047050]" />
@@ -363,7 +539,8 @@
               </h2>
               <p className="text-slate-500 mt-1 text-sm">Determine the requirement level for each NetSuite task.</p>
             </div>
-            <div className="min-w-[250px]">
+            
+            <div className="min-w-[300px]">
               <div className="text-xs text-slate-500 font-semibold uppercase mb-1">Mapping For:</div>
               <select
                 value={selectedRoleForMapping || ''}
@@ -391,11 +568,37 @@
                </div>
             ) : (
               <>
-                {Object.entries(tasksByArea).map(([area, tasks]) => (
+                {Object.entries(tasksByArea).map(([area, tasks]) => {
+                  const isExpanded = expandedAreas[area];
+                  const mappedCount = tasks.filter(t => mappings[selectedRoleForMapping]?.[t.id] && mappings[selectedRoleForMapping]?.[t.id] !== STATUS_OPTIONS.NONE).length;
+
+                  return (
                   <div key={area} className="border-b border-slate-200">
-                    <div className="bg-slate-100 px-6 py-3 font-semibold text-[#233D4C] border-b border-slate-200 sticky top-[68px] z-10 shadow-sm flex items-center">
-                      <ChevronRight className="w-4 h-4 mr-1 text-[#A1C180]" /> {area}
-                    </div>
+                    <button 
+                      onClick={() => toggleArea(area)}
+                      className="w-full bg-slate-100 px-6 py-4 font-semibold text-[#233D4C] border-b border-slate-200 sticky top-[68px] z-10 shadow-sm flex items-center justify-between hover:bg-slate-200 transition-colors text-left"
+                    >
+                      <div className="flex items-center">
+                        {isExpanded ? (
+                          <ChevronDown className="w-5 h-5 mr-2 text-[#047050]" />
+                        ) : (
+                          <ChevronRight className="w-5 h-5 mr-2 text-[#047050]" />
+                        )}
+                        {area}
+                      </div>
+                      <div className="flex items-center gap-3">
+                        {mappedCount > 0 && (
+                          <span className="text-[10px] uppercase tracking-wider font-bold bg-[#047050] text-white px-2 py-0.5 rounded-full">
+                            {mappedCount} Mapped
+                          </span>
+                        )}
+                        <span className="text-xs font-medium text-slate-500 bg-white px-2.5 py-1 rounded-full border border-slate-200 shadow-sm">
+                          {tasks.length} {tasks.length === 1 ? 'task' : 'tasks'}
+                        </span>
+                      </div>
+                    </button>
+                    
+                    {isExpanded && (
                     <div className="divide-y divide-slate-100">
                       {tasks.map(task => {
                         const currentStatus = mappings[selectedRoleForMapping]?.[task.id] || STATUS_OPTIONS.NONE;
@@ -410,7 +613,7 @@
                                 </div>
                               ) : (
                                 <div className="flex items-center text-sm text-slate-500 mt-1">
-                                  <FileText className="w-3.5 h-3.5 mr-1" /> Article / Quick Read
+                                  <FileText className="w-3.5 h-3.5 mr-1" /> Article / Quick Read (3m)
                                 </div>
                               )}
                             </div>
@@ -436,8 +639,9 @@
                         );
                       })}
                     </div>
+                    )}
                   </div>
-                ))}
+                )})}
 
                 <div className="bg-slate-50 border-t border-slate-200 p-6 flex flex-col sm:flex-row justify-between items-center gap-4">
                   <button 
@@ -460,57 +664,214 @@
         </div>
       );
 
+      // --- Helper Component to generate a Single Role's Layout ---
+      const renderJourneyDocument = (role) => {
+        const requiredTasksByArea = {};
+        const helpfulTasksByArea = {};
+        const customTasksByArea = {};
+        let totalTasksIncluded = 0;
+        let totalRequiredMinutes = 0;
+        let totalHelpfulMinutes = 0;
+
+        Object.entries(tasksByArea).forEach(([area, tasks]) => {
+          tasks.forEach(task => {
+            const effectiveStatus = getEffectiveStatus(role, task);
+            const taskMinutes = task.time ? parseTimeToMinutes(task.time) : 3;
+            
+            if (effectiveStatus === STATUS_OPTIONS.REQUIRED) {
+              if (!requiredTasksByArea[area]) requiredTasksByArea[area] = [];
+              requiredTasksByArea[area].push(task);
+              totalRequiredMinutes += taskMinutes;
+              totalTasksIncluded++;
+            } else if (effectiveStatus === STATUS_OPTIONS.HELPFUL) {
+              if (!helpfulTasksByArea[area]) helpfulTasksByArea[area] = [];
+              helpfulTasksByArea[area].push(task);
+              totalHelpfulMinutes += taskMinutes;
+              totalTasksIncluded++;
+            } else if (effectiveStatus === STATUS_OPTIONS.CUSTOM) {
+              if (!customTasksByArea[area]) customTasksByArea[area] = [];
+              customTasksByArea[area].push(task);
+              totalTasksIncluded++;
+            }
+          });
+        });
+
+        // Sub-helper for the Standard Lists
+        const renderTaskSection = (title, groupedTasks, colorClass, totalMinutes) => {
+          if (Object.keys(groupedTasks).length === 0) return null;
+          const timeString = formatMinutesToTime(totalMinutes);
+
+          return (
+            <div className="mb-6 break-inside-avoid print:mb-6">
+              <div className={`flex flex-col sm:flex-row sm:items-end justify-between border-b-2 pb-1 mb-3 print:border-b-2 print:pb-1 print:mb-3 ${colorClass}`}>
+                <h2 className="text-lg font-bold tracking-tight text-[#233D4C] print:text-lg print:text-black">
+                  {title}
+                </h2>
+                {timeString && (
+                  <div className="flex items-center text-xs font-bold uppercase tracking-wider text-slate-600 print:text-[11px] print:text-slate-600">
+                    Est. Total Time: {timeString}
+                  </div>
+                )}
+              </div>
+              <div className="space-y-4 print:space-y-3">
+                {Object.entries(groupedTasks).map(([area, tasks]) => (
+                  <div key={area} className="break-inside-avoid">
+                    <h3 className="text-xs font-bold text-[#233D4C] uppercase tracking-wider bg-slate-100 px-2 py-1 mb-1.5 rounded-sm print:text-[11px] print:bg-slate-100 print:px-2 print:py-1 print:mb-1 print:text-slate-800">
+                      {area}
+                    </h3>
+                    <div className="flex flex-col px-1 print:px-2">
+                      {tasks.map(task => {
+                        const primaryLink = task.links[0]?.url || '#';
+                        const isSuiteAnswers = task.links.some(l => l.label.includes('SuiteAnswers'));
+                        
+                        return (
+                          <div key={task.id} className="flex justify-between items-start py-1.5 border-b border-slate-100 last:border-0 group break-inside-avoid print:py-1 print:border-slate-200/60 print:items-center">
+                            <a 
+                              href={primaryLink}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="text-sm font-semibold text-[#047050] hover:text-[#035940] hover:underline relative z-10 leading-tight pr-4 print:text-[#047050] print:underline inline-block print:text-[12px] print:pr-0 print:flex-1"
+                            >
+                              {task.name}
+                            </a>
+                            <div className="text-[11px] text-slate-500 font-medium shrink-0 pt-0.5 print:text-[10px] print:text-slate-500 print:pt-0 print:ml-3">
+                              {task.time ? `Video (${task.time})` : (isSuiteAnswers ? 'SuiteAnswers (3m)' : 'Article (3m)')}
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          );
+        };
+
+        if (totalTasksIncluded === 0) {
+          return (
+            <div className="text-center py-12 text-slate-400 bg-slate-50 border border-dashed border-slate-200 print:hidden mt-4">
+              <p className="text-sm font-medium">No tasks were assigned to this role.</p>
+            </div>
+          );
+        }
+
+        return (
+          <>
+            <div className="border-b-2 border-[#047050] pb-2 mb-6 flex justify-between items-end print:border-b-2 print:pb-2 print:mb-5">
+              <div>
+                <h1 className="text-2xl font-extrabold text-[#233D4C] tracking-tight print:text-2xl">Learning Journey</h1>
+                <div className="flex flex-wrap items-center gap-3 mt-1.5">
+                  <p className="text-sm text-slate-500 font-medium print:text-sm">
+                    Role: <span className="text-[#047050] font-bold text-base">{role}</span>
+                  </p>
+                  {totalRequiredMinutes > 0 && (
+                    <span className="text-[11px] font-bold text-[#FE802E] bg-[#FE802E]/10 px-2 py-0.5 rounded flex items-center print:border print:border-[#FE802E]/40 print:bg-transparent">
+                      <Clock className="w-3 h-3 mr-1 print:hidden" />
+                      Required Est. Time: {formatMinutesToTime(totalRequiredMinutes)}
+                    </span>
+                  )}
+                </div>
+              </div>
+              <div className="text-right">
+                <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest print:text-[9px]">Training Curriculum</div>
+              </div>
+            </div>
+
+            {renderTaskSection("Required Training", requiredTasksByArea, "border-[#FE802E]/40", totalRequiredMinutes)}
+            {renderTaskSection("Recommended / Optional Training", helpfulTasksByArea, "border-[#619C8A]/40", totalHelpfulMinutes)}
+            
+            {/* Highly Customized Render */}
+            {Object.keys(customTasksByArea).length > 0 && (
+              <div className="mt-8 break-inside-avoid pt-4 border-t-2 border-slate-200 print:mt-6 print:pt-4 print:border-t-2 print:border-slate-300">
+                <h2 className="text-lg font-extrabold text-[#233D4C] tracking-tight mb-1 print:text-lg">Highly Customized Processes</h2>
+                <p className="text-[11px] text-slate-500 mb-4 italic print:mb-3">
+                  BPC will provide documentation on customized processes that deviate from NetSuite's native out of the box solution.
+                </p>
+                <div className="space-y-3 print:space-y-2">
+                   {Object.entries(customTasksByArea).map(([area, tasks]) => (
+                     <div key={area} className="break-inside-avoid">
+                        <h3 className="text-xs font-bold text-[#233D4C] uppercase tracking-wider mb-1.5 bg-slate-100 px-2 py-1 rounded-sm print:text-[12px] print:mb-1 print:bg-slate-100 print:px-2 print:py-1">{area}</h3>
+                        <ul className="list-disc pl-6 space-y-0.5 marker:text-slate-400 print:pl-6 print:space-y-0.5">
+                          {tasks.map(task => (
+                            <li key={task.id} className="text-sm text-slate-800 font-medium print:text-[12px] print:font-medium print:text-black">{task.name}</li>
+                          ))}
+                        </ul>
+                     </div>
+                   ))}
+                </div>
+              </div>
+            )}
+          </>
+        );
+      };
+
       const renderGeneratedJourney = () => {
-        if (!selectedRoleForOutput) return (
-          <div className="text-center py-16 px-4 bg-white rounded-xl shadow-sm border border-slate-200 print:hidden">
+        if (!selectedRoleForOutput && roles.length > 0) setSelectedRoleForOutput(roles[0]);
+
+        if (roles.length === 0) return (
+          <div className="text-center py-16 px-4 bg-white rounded-xl shadow-sm border border-slate-200">
              <BookOpen className="w-12 h-12 text-slate-200 mx-auto mb-4" />
-             <h3 className="text-lg font-medium text-slate-700 mb-2">No journey generated</h3>
-             <p className="text-slate-500 mb-6">Select a role and map requirements first.</p>
+             <h3 className="text-lg font-medium text-slate-700 mb-2">No roles defined</h3>
+             <p className="text-slate-500 mb-6">Create a role and map requirements first.</p>
              <button 
                onClick={() => setActiveTab('roles')}
                className="px-5 py-2.5 bg-[#047050] text-white rounded-lg font-medium"
              >
-               Start Over
+               Go to Role Setup
              </button>
           </div>
         );
 
-        const roleMappings = mappings[selectedRoleForOutput] || {};
-        
-        const assignedTasksByArea = {};
-        Object.entries(tasksByArea).forEach(([area, tasks]) => {
-          const areaTasks = tasks.filter(t => roleMappings[t.id] && roleMappings[t.id] !== STATUS_OPTIONS.NONE);
-          if (areaTasks.length > 0) {
-            assignedTasksByArea[area] = areaTasks;
-          }
-        });
-
-        const hasTasks = Object.keys(assignedTasksByArea).length > 0;
-
         return (
           <div className="space-y-6">
-            <div className="flex justify-between items-center print:hidden bg-white p-4 rounded-xl shadow-sm border border-slate-200">
-              <div className="flex items-center gap-3">
-                 <div className="text-sm font-semibold text-slate-500 uppercase">Viewing:</div>
-                 <select
-                  value={selectedRoleForOutput || ''}
-                  onChange={(e) => setSelectedRoleForOutput(e.target.value)}
-                  className="px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#047050] bg-slate-50 font-bold text-[#233D4C] outline-none"
-                >
-                  {roles.map(r => <option key={r} value={r}>{r}</option>)}
-                </select>
+            <div className="flex flex-col lg:flex-row justify-between items-center bg-white p-4 rounded-xl shadow-sm border border-slate-200 gap-4 print:hidden">
+              <div className="flex flex-col sm:flex-row items-center gap-4 w-full lg:w-auto">
+                 <div className="flex items-center gap-2">
+                   <div className="text-sm font-semibold text-slate-500 uppercase">Viewing:</div>
+                   <select
+                    value={selectedRoleForOutput || ''}
+                    onChange={(e) => setSelectedRoleForOutput(e.target.value)}
+                    className="px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#047050] bg-slate-50 font-bold text-[#233D4C] outline-none"
+                  >
+                    {roles.length > 1 && <option value="__ALL__">All Roles (Master Document)</option>}
+                    {roles.map(r => <option key={r} value={r}>{r}</option>)}
+                  </select>
+                 </div>
+                 
+                 {/* Only show auto-include toggle if viewing a specific role */}
+                 {selectedRoleForOutput !== '__ALL__' && (
+                 <div className="flex items-center bg-[#619C8A]/10 border border-[#619C8A]/30 px-3 py-2 rounded-lg ml-0 sm:ml-2">
+                  <input
+                     type="checkbox"
+                     id="autoAddMapping"
+                     checked={autoIncludeSettings[selectedRoleForOutput] || false}
+                     onChange={(e) => {
+                       setAutoIncludeSettings(prev => ({
+                         ...prev,
+                         [selectedRoleForOutput]: e.target.checked
+                       }));
+                     }}
+                     className="w-4 h-4 rounded border-slate-300 text-[#047050] focus:ring-[#047050] cursor-pointer"
+                  />
+                  <label htmlFor="autoAddMapping" className="ml-2 text-xs font-semibold text-[#233D4C] cursor-pointer">
+                     Move Articles to Recommended
+                  </label>
+                 </div>
+                 )}
               </div>
-              <div className="flex gap-3">
+              
+              <div className="flex gap-3 w-full lg:w-auto justify-end">
                 <button 
                   onClick={() => setActiveTab('roles')}
-                  className="px-4 py-2 text-[#047050] bg-[#047050]/10 rounded-lg hover:bg-[#047050]/20 font-medium transition-colors"
+                  className="px-4 py-2 text-[#047050] bg-[#047050]/10 rounded-lg hover:bg-[#047050]/20 font-medium transition-colors text-sm"
                 >
-                   Map More Roles
+                   Edit Maps
                 </button>
                 <button 
                   onClick={generatePDF}
                   disabled={isGeneratingPdf}
-                  className="px-4 py-2 bg-[#233D4C] text-white rounded-lg hover:bg-[#1a2d38] flex items-center font-medium transition-colors shadow-sm disabled:opacity-75"
+                  className="px-4 py-2 bg-[#233D4C] text-white rounded-lg hover:bg-[#1a2d38] flex items-center font-medium transition-colors shadow-sm disabled:opacity-75 text-sm"
                 >
                   {isGeneratingPdf ? (
                     <><Loader2 className="w-4 h-4 mr-2 animate-spin" /> Generating PDF...</>
@@ -521,80 +882,56 @@
               </div>
             </div>
 
-            <div 
-              id="pdf-content"
-              className="bg-white rounded-xl shadow-sm border border-slate-200 p-8 print:p-0 print:border-none print:shadow-none print:rounded-none w-full"
-            >
-              <div className="border-b-[3px] border-[#047050] pb-4 mb-6 flex justify-between items-end print:pb-3 print:mb-5">
-                <div>
-                  <h1 className="text-3xl font-extrabold text-[#233D4C] tracking-tight print:text-2xl">Learning Journey</h1>
-                  <p className="text-lg text-slate-500 mt-1 font-medium print:text-base">
-                    Role: <span className="text-[#047050] font-bold">{selectedRoleForOutput}</span>
-                  </p>
-                </div>
-                <div className="text-right pb-1">
-                  <div className="text-xs font-bold text-slate-400 uppercase tracking-widest print:text-[10px]">Training Curriculum</div>
-                </div>
-              </div>
+            {/* Print Layout */}
+            <div className="bg-slate-200/50 p-4 sm:p-8 rounded-xl shadow-inner overflow-x-auto flex flex-col items-center print:p-0 print:bg-white print:shadow-none print:block">
+              <div id="pdf-content" className="w-full max-w-[8.5in] print:max-w-none text-left">
+                {selectedRoleForOutput === '__ALL__' ? (
+                  <div className="space-y-6 print:space-y-0">
+                    {roles.map((role, idx) => {
+                      // Calculate required time specifically for the master view header
+                      let roleRequiredMins = 0;
+                      Object.values(tasksByArea).forEach(tasks => {
+                        tasks.forEach(task => {
+                          if (getEffectiveStatus(role, task) === STATUS_OPTIONS.REQUIRED) {
+                            roleRequiredMins += task.time ? parseTimeToMinutes(task.time) : 3;
+                          }
+                        });
+                      });
 
-              {!hasTasks ? (
-                <div className="text-center py-12 text-slate-400 bg-slate-50 rounded-xl border border-dashed border-slate-200 print:hidden">
-                  <p className="text-base">No tasks were assigned to this role.</p>
-                  <button 
-                    onClick={() => selectRoleForMapping(selectedRoleForOutput)}
-                    className="mt-3 text-[#047050] font-medium underline"
-                  >
-                    Go back to map requirements
-                  </button>
-                </div>
-              ) : (
-                <div className="space-y-6 print:space-y-5">
-                  {Object.entries(assignedTasksByArea).map(([area, tasks]) => (
-                    <div key={area} className="break-inside-avoid">
-                      <h3 className="text-lg font-bold text-[#233D4C] uppercase tracking-wider border-b-2 border-[#047050]/20 pb-1 mb-2 print:text-sm print:border-slate-300">
-                        {area}
-                      </h3>
-                      
-                      <div className="flex flex-col">
-                        {tasks.map(task => {
-                          const status = roleMappings[task.id];
-                          const primaryLink = task.links[0]?.url || '#';
-                          const isSuiteAnswers = task.links.some(l => l.label.includes('SuiteAnswers'));
-                          
-                          return (
-                            <div key={task.id} className="flex justify-between items-center py-2.5 border-b border-slate-100 print:py-1.5 print:border-slate-200 last:border-0 group break-inside-avoid">
-                              <div className="flex-1 pr-4">
-                                <a 
-                                  href={primaryLink}
-                                  target="_blank"
-                                  rel="noreferrer"
-                                  className="text-base font-semibold text-[#047050] hover:text-[#035940] hover:underline print:text-[#047050] print:underline inline-block print:text-sm relative z-10"
-                                >
-                                  {task.name}
-                                </a>
-                                
-                                <div className="text-xs text-slate-500 font-medium mt-0.5 flex items-center print:text-[10px] print:text-slate-600">
-                                  {task.time ? (
-                                    <><PlayCircle className="w-3.5 h-3.5 mr-1 opacity-70" /> Video Module ({task.time})</>
-                                  ) : (
-                                    <><FileText className="w-3.5 h-3.5 mr-1 opacity-70" /> {isSuiteAnswers ? 'SuiteAnswers Reference' : 'Article / Quick Read'}</>
-                                  )}
-                                </div>
-                              </div>
+                      return (
+                        <div key={role} className="print:break-after-page" style={{ pageBreakAfter: idx === roles.length - 1 ? 'auto' : 'always' }}>
+                          {/* Collapsible Wrapper for Web UI */}
+                          <div className="border border-slate-200 rounded-xl overflow-hidden shadow-sm print:border-none print:shadow-none print:rounded-none bg-white">
+                              <button 
+                                  onClick={() => toggleMasterRole(role)}
+                                  className="w-full flex justify-between items-center bg-[#f8fafc] p-4 hover:bg-slate-100 transition-colors text-left border-b border-slate-200 print:hidden"
+                              >
+                                  <div className="flex flex-wrap items-center gap-4">
+                                      <h2 className="text-lg font-bold text-[#233D4C]">{role} Journey</h2>
+                                      {roleRequiredMins > 0 && (
+                                          <span className="text-xs font-bold text-[#FE802E] bg-[#FE802E]/10 px-2.5 py-1 rounded-md flex items-center">
+                                              <Clock className="w-3.5 h-3.5 mr-1" />
+                                              Required: {formatMinutesToTime(roleRequiredMins)}
+                                          </span>
+                                      )}
+                                  </div>
+                                  {masterExpandedRoles[role] ? <ChevronDown className="w-5 h-5 text-[#047050] shrink-0" /> : <ChevronRight className="w-5 h-5 text-[#047050] shrink-0" />}
+                              </button>
                               
-                              <div className="min-w-[120px] text-right">
-                                 <span className={`inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-widest border ${STATUS_COLORS[status]} print:bg-transparent print:border-slate-400`}>
-                                   {status}
-                                 </span>
+                              <div className={`p-6 bg-white print:p-0 ${masterExpandedRoles[role] ? 'block' : 'hidden print:block'}`}>
+                                  {renderJourneyDocument(role)}
                               </div>
-                            </div>
-                          );
-                        })}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
+                          </div>
+                        </div>
+                      )
+                    })}
+                  </div>
+                ) : (
+                  <div className="bg-white shadow-md w-full p-[0.5in] print:p-0 print:shadow-none">
+                    {renderJourneyDocument(selectedRoleForOutput)}
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         );

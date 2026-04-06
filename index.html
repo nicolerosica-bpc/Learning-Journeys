@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NetSuite Learning Journey Builder</title>
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- React and ReactDOM -->
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+  
+  <!-- Babel for in-browser JSX compilation -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  
+  <!-- html2pdf for PDF Generation -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+  <style>
+    body { font-family: 'Sarabun', sans-serif; }
+    /* Print optimizations */
+    @media print {
+      body { background: white; margin: 0; padding: 0; }
+      /* Critical fix to prevent URLs from printing next to text */
+      a[href]:after { content: none !important; } 
+      a { text-decoration: none !important; color: black !important; }
+      nav a[href]:after, header a[href]:after { content: ""; }
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState, useMemo, useEffect } = React;
+
+    // --- Inline Icon Components (Replaces lucide-react for standalone usage) ---
+    const Users = ({className}) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>;
+    // Renamed Map to MapIcon to avoid shadowing the native JavaScript Map object
+    const MapIcon = ({className}) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" x2="9" y1="3" y2="18"/><line x1="15" x2="15" y1="6" y2="21"/></svg>;
+    const BookOpen = ({className}) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>;
+    const Plus = ({className}) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><line x1="12" x2="12" y1="5" y2="19"/><line x1="5" x2="19" y1="12" y2="12"/></svg>;
+    const XIcon = ({className}) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><line x1="18" x2="6" y1="6" y2="18"/><line x1="6" x2="18" y1="6" y2="18"/></svg>;
+    const CheckCircle2 = ({className}) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>;
+    const Info = ({className}) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>;
+    const Settings = ({className}) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>;
+    const ChevronRight = ({className}) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="m9 18 6-6-6-6"/></svg>;
+    const Download = ({className}) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>;
+    const ArrowLeft = ({className}) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>;
+    const ArrowRight = ({className}) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>;
+    const Clock = ({className}) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>;
+    const PlayCircle = ({className}) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>;
+    const FileText = ({className}) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></svg>;
+    const Loader2 = ({className}) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>;
+
+    // --- Dynamic Google Sheets Backend ---
+    const GOOGLE_SHEETS_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSAjiKztm7ZHeSqwyiQN48h1kycq53ktUY9vT5JPMnCDCfkhHxkbWQfCEsCnK4AOcAMkZxQbFaSqBEa/pub?output=csv";
+
+    const STATUS_OPTIONS = {
+      NONE: 'None',
+      REQUIRED: 'Required',
+      HELPFUL: 'Helpful to Know',
+      CUSTOM: 'Highly Customized'
+    };
+
+    const STATUS_COLORS = {
+      [STATUS_OPTIONS.REQUIRED]: 'bg-[#FE802E]/10 text-[#FE802E] border-[#FE802E]/40 print:border-[#FE802E] print:text-[#FE802E]',
+      [STATUS_OPTIONS.HELPFUL]: 'bg-[#619C8A]/10 text-[#619C8A] border-[#619C8A]/40 print:border-[#619C8A] print:text-[#619C8A]',
+      [STATUS_OPTIONS.CUSTOM]: 'bg-[#FCCA47]/20 text-[#233D4C] border-[#FCCA47]/50 print:border-[#FCCA47] print:text-[#233D4C]' 
+    };
+
+    const STATUS_ICONS = {
+      [STATUS_OPTIONS.REQUIRED]: <CheckCircle2 className="w-4 h-4 mr-1 print:hidden" />,
+      [STATUS_OPTIONS.HELPFUL]: <Info className="w-4 h-4 mr-1 print:hidden" />,
+      [STATUS_OPTIONS.CUSTOM]: <Settings className="w-4 h-4 mr-1 print:hidden" />
+    };
+
+    function App() {
+      const [activeTab, setActiveTab] = useState('roles');
+      const [roles, setRoles] = useState([]);
+      const [newRoleName, setNewRoleName] = useState('');
+      const [isGeneratingPdf, setIsGeneratingPdf] = useState(false);
+      const [mappings, setMappings] = useState({});
+      const [selectedRoleForMapping, setSelectedRoleForMapping] = useState('');
+      const [selectedRoleForOutput, setSelectedRoleForOutput] = useState('');
+
+      const [taskDatabase, setTaskDatabase] = useState([]);
+      const [isLoadingCatalog, setIsLoadingCatalog] = useState(true);
+      const [catalogError, setCatalogError] = useState(null);
+
+      useEffect(() => {
+        const fetchCatalog = async () => {
+          try {
+            const response = await fetch(GOOGLE_SHEETS_CSV_URL);
+            if (!response.ok) throw new Error('Failed to fetch catalog data');
+            const csvText = await response.text();
+            
+            const result = [];
+            let row = [];
+            let col = "";
+            let inQuotes = false;
+            
+            for (let i = 0; i < csvText.length; i++) {
+                let char = csvText[i];
+                if (char === '"') {
+                    if (inQuotes && csvText[i + 1] === '"') {
+                        col += '"';
+                        i++;
+                    } else {
+                        inQuotes = !inQuotes;
+                    }
+                } else if (char === ',' && !inQuotes) {
+                    row.push(col);
+                    col = "";
+                } else if (char === '\n' && !inQuotes) {
+                    row.push(col);
+                    result.push(row);
+                    row = [];
+                    col = "";
+                } else if (char === '\r' && !inQuotes) {
+                    // Ignore carriage return
+                } else {
+                    col += char;
+                }
+            }
+            if (row.length > 0 || col !== "") {
+                row.push(col);
+                result.push(row);
+            }
+
+            const parsedTasks = [];
+            let currentArea = "General Learning"; 
+            
+            for (let i = 1; i < result.length; i++) {
+              const r = result[i];
+              if (!r || r.length < 2) continue;
+
+              const refNumber = (r[0] || '').trim();
+              const rawTaskName = (r[1] || '').trim();
+              const cleanTaskName = rawTaskName.split('\n')[0].trim();
+
+              const links = [
+                { label: 'MyLearn', url: r[2] ? r[2].trim() : '' },
+                { label: 'SuiteAnswers', url: r[4] ? r[4].trim() : '' },
+                { label: 'BPC Tango', url: r[5] ? r[5].trim() : '' },
+                { label: 'YouTube', url: r[6] ? r[6].trim() : '' },
+                { label: 'YouTube (3rd Party)', url: r[8] ? r[8].trim() : '' },
+                { label: 'Spanish 🇪🇸', url: r[10] ? r[10].trim() : '' }
+              ].filter(l => l.url !== '');
+
+              const time = (r[3] && r[3].trim()) || (r[7] && r[7].trim()) || (r[9] && r[9].trim()) || null;
+              const hasLink = links.length > 0;
+
+              // Identify section headers (rows with text but no links/reference numbers)
+              if (!hasLink && !refNumber && rawTaskName) {
+                 currentArea = cleanTaskName;
+                 continue;
+              }
+
+              // Identify valid tasks
+              if (refNumber && rawTaskName) {
+                 parsedTasks.push({
+                   id: refNumber,
+                   area: currentArea,
+                   name: cleanTaskName,
+                   time: time,
+                   links: links.length > 0 ? links : [{label: 'Resource Pending', url: '#'}] 
+                 });
+              }
+            }
+            
+            setTaskDatabase(parsedTasks);
+            setIsLoadingCatalog(false);
+          } catch (err) {
+            console.error(err);
+            setCatalogError("Failed to load learning catalog. Please check the Google Sheet link.");
+            setIsLoadingCatalog(false);
+          }
+        };
+
+        fetchCatalog();
+      }, []);
+
+      const tasksByArea = useMemo(() => {
+        return taskDatabase.reduce((acc, task) => {
+          if (!acc[task.area]) acc[task.area] = [];
+          acc[task.area].push(task);
+          return acc;
+        }, {});
+      }, [taskDatabase]);
+
+      const handleAddRole = (e) => {
+        e.preventDefault();
+        const trimmedRole = newRoleName.trim();
+        if (trimmedRole && !roles.includes(trimmedRole)) {
+          setRoles([...roles, trimmedRole]);
+          setNewRoleName('');
+        }
+      };
+
+      const handleRemoveRole = (e, roleToRemove) => {
+        e.stopPropagation();
+        setRoles(roles.filter(r => r !== roleToRemove));
+        const newMappings = { ...mappings };
+        delete newMappings[roleToRemove];
+        setMappings(newMappings);
+        
+        if (selectedRoleForMapping === roleToRemove) setSelectedRoleForMapping('');
+        if (selectedRoleForOutput === roleToRemove) setSelectedRoleForOutput('');
+      };
+
+      const selectRoleForMapping = (role) => {
+        setSelectedRoleForMapping(role);
+        setActiveTab('mapping');
+        window.scrollTo(0, 0);
+      };
+
+      const handleGenerateJourney = () => {
+        setSelectedRoleForOutput(selectedRoleForMapping);
+        setActiveTab('output');
+        window.scrollTo(0, 0);
+      };
+
+      const handleStatusChange = (role, taskId, status) => {
+        setMappings(prev => ({
+          ...prev,
+          [role]: {
+            ...(prev[role] || {}),
+            [taskId]: status
+          }
+        }));
+      };
+
+      const generatePDF = () => {
+        const element = document.getElementById('pdf-content');
+        if (window.html2pdf && element) {
+          setIsGeneratingPdf(true);
+          const originalScroll = window.scrollY;
+          window.scrollTo(0, 0);
+          
+          const safeRoleName = selectedRoleForOutput.replace(/[^a-z0-9]/gi, '_').toLowerCase();
+          const opt = {
+            margin:       [0.5, 0.5, 0.5, 0.5],
+            filename:     `Learning_Journey_${safeRoleName}.pdf`,
+            image:        { type: 'jpeg', quality: 0.98 },
+            html2canvas:  { scale: 2, useCORS: true, scrollY: 0, windowY: 0 },
+            jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' },
+            enableLinks:  true 
+          };
+
+          window.html2pdf().set(opt).from(element).save().then(() => {
+            setIsGeneratingPdf(false);
+            window.scrollTo(0, originalScroll); 
+          }).catch(err => {
+            console.error('PDF Generation Error:', err);
+            setIsGeneratingPdf(false);
+            window.scrollTo(0, originalScroll);
+            window.print();
+          });
+        } else {
+          window.print();
+        }
+      };
+
+      if (isLoadingCatalog) {
+        return (
+          <div className="min-h-screen bg-slate-100 flex flex-col items-center justify-center pb-20" style={{ fontFamily: "'Sarabun', sans-serif" }}>
+            <Loader2 className="w-12 h-12 text-[#047050] animate-spin mb-4" />
+            <h2 className="text-xl font-bold text-[#233D4C]">Loading Master Catalog...</h2>
+            <p className="text-slate-500 mt-2">Syncing with live Google Sheet</p>
+          </div>
+        );
+      }
+
+      if (catalogError) {
+        return (
+          <div className="min-h-screen bg-slate-100 flex flex-col items-center justify-center pb-20 px-4" style={{ fontFamily: "'Sarabun', sans-serif" }}>
+            <div className="bg-white p-8 rounded-xl shadow-sm border border-red-200 text-center max-w-md">
+              <XIcon className="w-12 h-12 text-red-500 mx-auto mb-4" />
+              <h2 className="text-xl font-bold text-slate-800 mb-2">Connection Error</h2>
+              <p className="text-slate-600 mb-6">{catalogError}</p>
+              <button onClick={() => window.location.reload()} className="px-5 py-2.5 bg-[#047050] text-white rounded-lg font-medium">Try Again</button>
+            </div>
+          </div>
+        );
+      }
+
+      const renderRoleSetup = () => (
+        <div className="max-w-3xl mx-auto bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden print:hidden">
+          <div className="p-6 border-b border-slate-200 bg-slate-50">
+            <h2 className="text-xl font-semibold text-slate-800 flex items-center">
+              <Users className="w-5 h-5 mr-2 text-[#047050]" />
+              Define Learning Roles
+            </h2>
+            <p className="text-slate-500 mt-1 text-sm">Add the different user personas for your client. Then click on a role to map its requirements.</p>
+          </div>
+          <div className="p-6">
+            <form onSubmit={handleAddRole} className="flex gap-3 mb-8">
+              <input
+                type="text"
+                value={newRoleName}
+                onChange={(e) => setNewRoleName(e.target.value)}
+                placeholder="Type a role (e.g., Finance Team) and hit Enter"
+                className="flex-1 px-4 py-3 border-2 border-slate-200 rounded-lg focus:ring-0 focus:border-[#047050] outline-none transition-all text-lg"
+                autoFocus
+              />
+              <button 
+                type="submit"
+                disabled={!newRoleName.trim()}
+                className="px-6 py-3 bg-[#047050] text-white rounded-lg hover:bg-[#035940] disabled:opacity-50 disabled:cursor-not-allowed flex items-center font-medium transition-colors"
+              >
+                <Plus className="w-5 h-5 mr-1" /> Add
+              </button>
+            </form>
+
+            <div className="space-y-4">
+              <h3 className="text-sm font-semibold text-slate-400 uppercase tracking-wider border-b border-slate-100 pb-2">
+                {roles.length > 0 ? "Select a role to map training requirements:" : "Added Roles will appear here"}
+              </h3>
+              
+              {roles.length === 0 ? (
+                <div className="text-center py-10 text-slate-400 border-2 border-dashed border-slate-100 rounded-xl">
+                  <Users className="w-10 h-10 mx-auto text-slate-200 mb-2" />
+                  <p>No roles defined yet.</p>
+                </div>
+              ) : (
+                <div className="flex flex-wrap gap-3">
+                  {roles.map(role => (
+                    <div 
+                      key={role} 
+                      className="group relative flex items-center bg-white border-2 border-[#047050]/20 hover:border-[#047050] rounded-full pl-5 pr-2 py-2 shadow-sm hover:shadow-md transition-all cursor-pointer"
+                      onClick={() => selectRoleForMapping(role)}
+                    >
+                      <span className="font-semibold text-[#233D4C] mr-3">{role}</span>
+                      <button
+                        onClick={(e) => handleRemoveRole(e, role)}
+                        className="p-1 rounded-full text-slate-400 hover:bg-red-100 hover:text-red-600 transition-colors"
+                        title="Remove Role"
+                      >
+                        <XIcon className="w-4 h-4" />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      );
+
+      const renderTaskMapping = () => (
+        <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden print:hidden">
+          <div className="p-6 border-b border-slate-200 bg-slate-50 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div>
+              <h2 className="text-xl font-semibold text-slate-800 flex items-center">
+                <MapIcon className="w-5 h-5 mr-2 text-[#047050]" />
+                Map Training Requirements
+              </h2>
+              <p className="text-slate-500 mt-1 text-sm">Determine the requirement level for each NetSuite task.</p>
+            </div>
+            <div className="min-w-[250px]">
+              <div className="text-xs text-slate-500 font-semibold uppercase mb-1">Mapping For:</div>
+              <select
+                value={selectedRoleForMapping || ''}
+                onChange={(e) => setSelectedRoleForMapping(e.target.value)}
+                className="w-full px-4 py-2 border-2 border-[#047050] rounded-lg focus:ring-0 bg-white font-bold text-[#047050] outline-none"
+              >
+                <option value="" disabled>Select a Role...</option>
+                {roles.map(r => <option key={r} value={r}>{r}</option>)}
+              </select>
+            </div>
+          </div>
+
+          <div className="p-0">
+            {!selectedRoleForMapping ? (
+               <div className="text-center py-16 px-4">
+                 <MapIcon className="w-12 h-12 text-slate-200 mx-auto mb-4" />
+                 <h3 className="text-lg font-medium text-slate-700 mb-2">No role selected</h3>
+                 <p className="text-slate-500 mb-6">Please select a role from the dropdown above, or go back to add a new one.</p>
+                 <button 
+                   onClick={() => setActiveTab('roles')}
+                   className="inline-flex items-center text-[#047050] hover:text-[#035940] font-medium"
+                 >
+                   <ArrowLeft className="w-4 h-4 mr-2" /> Back to Roles Setup
+                 </button>
+               </div>
+            ) : (
+              <>
+                {Object.entries(tasksByArea).map(([area, tasks]) => (
+                  <div key={area} className="border-b border-slate-200">
+                    <div className="bg-slate-100 px-6 py-3 font-semibold text-[#233D4C] border-b border-slate-200 sticky top-[68px] z-10 shadow-sm flex items-center">
+                      <ChevronRight className="w-4 h-4 mr-1 text-[#A1C180]" /> {area}
+                    </div>
+                    <div className="divide-y divide-slate-100">
+                      {tasks.map(task => {
+                        const currentStatus = mappings[selectedRoleForMapping]?.[task.id] || STATUS_OPTIONS.NONE;
+                        
+                        return (
+                          <div key={task.id} className="px-6 py-4 flex flex-col lg:flex-row lg:items-center justify-between hover:bg-slate-50 transition-colors">
+                            <div className="mb-4 lg:mb-0 lg:pr-6 flex-1">
+                              <div className="font-medium text-slate-800 text-lg">{task.name}</div>
+                              {task.time ? (
+                                <div className="flex items-center text-sm text-slate-500 mt-1">
+                                  <PlayCircle className="w-3.5 h-3.5 mr-1" /> Video Module ({task.time})
+                                </div>
+                              ) : (
+                                <div className="flex items-center text-sm text-slate-500 mt-1">
+                                  <FileText className="w-3.5 h-3.5 mr-1" /> Article / Quick Read
+                                </div>
+                              )}
+                            </div>
+                            
+                            <div className="flex flex-wrap gap-2 lg:justify-end bg-slate-100/50 p-1 rounded-lg border border-slate-200">
+                              {Object.values(STATUS_OPTIONS).map(status => (
+                                <button
+                                  key={status}
+                                  onClick={() => handleStatusChange(selectedRoleForMapping, task.id, status)}
+                                  className={`px-4 py-2 text-sm rounded-md font-medium transition-all whitespace-nowrap ${
+                                    currentStatus === status 
+                                      ? status === STATUS_OPTIONS.NONE 
+                                        ? 'bg-slate-200 text-slate-700 shadow-sm' 
+                                        : `${STATUS_COLORS[status]} shadow-sm`
+                                      : 'bg-transparent text-slate-500 hover:bg-slate-200/50'
+                                  }`}
+                                >
+                                  {status}
+                                </button>
+                              ))}
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                ))}
+
+                <div className="bg-slate-50 border-t border-slate-200 p-6 flex flex-col sm:flex-row justify-between items-center gap-4">
+                  <button 
+                    onClick={() => setActiveTab('roles')}
+                    className="px-5 py-3 text-slate-600 bg-white border border-slate-300 rounded-lg hover:bg-slate-100 hover:text-slate-800 transition-colors font-medium flex items-center w-full sm:w-auto justify-center"
+                  >
+                    <ArrowLeft className="w-4 h-4 mr-2" /> Map Requirements for Other Roles
+                  </button>
+                  
+                  <button 
+                    onClick={handleGenerateJourney}
+                    className="px-6 py-3 bg-[#047050] text-white rounded-lg hover:bg-[#035940] transition-colors font-semibold flex items-center shadow-md hover:shadow-lg w-full sm:w-auto justify-center"
+                  >
+                    Generate Learning Journey <ArrowRight className="w-4 h-4 ml-2" />
+                  </button>
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+      );
+
+      const renderGeneratedJourney = () => {
+        if (!selectedRoleForOutput) return (
+          <div className="text-center py-16 px-4 bg-white rounded-xl shadow-sm border border-slate-200 print:hidden">
+             <BookOpen className="w-12 h-12 text-slate-200 mx-auto mb-4" />
+             <h3 className="text-lg font-medium text-slate-700 mb-2">No journey generated</h3>
+             <p className="text-slate-500 mb-6">Select a role and map requirements first.</p>
+             <button 
+               onClick={() => setActiveTab('roles')}
+               className="px-5 py-2.5 bg-[#047050] text-white rounded-lg font-medium"
+             >
+               Start Over
+             </button>
+          </div>
+        );
+
+        const roleMappings = mappings[selectedRoleForOutput] || {};
+        
+        const assignedTasksByArea = {};
+        Object.entries(tasksByArea).forEach(([area, tasks]) => {
+          const areaTasks = tasks.filter(t => roleMappings[t.id] && roleMappings[t.id] !== STATUS_OPTIONS.NONE);
+          if (areaTasks.length > 0) {
+            assignedTasksByArea[area] = areaTasks;
+          }
+        });
+
+        const hasTasks = Object.keys(assignedTasksByArea).length > 0;
+
+        return (
+          <div className="space-y-6">
+            <div className="flex justify-between items-center print:hidden bg-white p-4 rounded-xl shadow-sm border border-slate-200">
+              <div className="flex items-center gap-3">
+                 <div className="text-sm font-semibold text-slate-500 uppercase">Viewing:</div>
+                 <select
+                  value={selectedRoleForOutput || ''}
+                  onChange={(e) => setSelectedRoleForOutput(e.target.value)}
+                  className="px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#047050] bg-slate-50 font-bold text-[#233D4C] outline-none"
+                >
+                  {roles.map(r => <option key={r} value={r}>{r}</option>)}
+                </select>
+              </div>
+              <div className="flex gap-3">
+                <button 
+                  onClick={() => setActiveTab('roles')}
+                  className="px-4 py-2 text-[#047050] bg-[#047050]/10 rounded-lg hover:bg-[#047050]/20 font-medium transition-colors"
+                >
+                   Map More Roles
+                </button>
+                <button 
+                  onClick={generatePDF}
+                  disabled={isGeneratingPdf}
+                  className="px-4 py-2 bg-[#233D4C] text-white rounded-lg hover:bg-[#1a2d38] flex items-center font-medium transition-colors shadow-sm disabled:opacity-75"
+                >
+                  {isGeneratingPdf ? (
+                    <><Loader2 className="w-4 h-4 mr-2 animate-spin" /> Generating PDF...</>
+                  ) : (
+                    <><Download className="w-4 h-4 mr-2" /> Download PDF</>
+                  )}
+                </button>
+              </div>
+            </div>
+
+            <div 
+              id="pdf-content"
+              className="bg-white rounded-xl shadow-sm border border-slate-200 p-8 print:p-0 print:border-none print:shadow-none print:rounded-none w-full"
+            >
+              <div className="border-b-[3px] border-[#047050] pb-4 mb-6 flex justify-between items-end print:pb-3 print:mb-5">
+                <div>
+                  <h1 className="text-3xl font-extrabold text-[#233D4C] tracking-tight print:text-2xl">Learning Journey</h1>
+                  <p className="text-lg text-slate-500 mt-1 font-medium print:text-base">
+                    Role: <span className="text-[#047050] font-bold">{selectedRoleForOutput}</span>
+                  </p>
+                </div>
+                <div className="text-right pb-1">
+                  <div className="text-xs font-bold text-slate-400 uppercase tracking-widest print:text-[10px]">Training Curriculum</div>
+                </div>
+              </div>
+
+              {!hasTasks ? (
+                <div className="text-center py-12 text-slate-400 bg-slate-50 rounded-xl border border-dashed border-slate-200 print:hidden">
+                  <p className="text-base">No tasks were assigned to this role.</p>
+                  <button 
+                    onClick={() => selectRoleForMapping(selectedRoleForOutput)}
+                    className="mt-3 text-[#047050] font-medium underline"
+                  >
+                    Go back to map requirements
+                  </button>
+                </div>
+              ) : (
+                <div className="space-y-6 print:space-y-5">
+                  {Object.entries(assignedTasksByArea).map(([area, tasks]) => (
+                    <div key={area} className="break-inside-avoid">
+                      <h3 className="text-lg font-bold text-[#233D4C] uppercase tracking-wider border-b-2 border-[#047050]/20 pb-1 mb-2 print:text-sm print:border-slate-300">
+                        {area}
+                      </h3>
+                      
+                      <div className="flex flex-col">
+                        {tasks.map(task => {
+                          const status = roleMappings[task.id];
+                          const primaryLink = task.links[0]?.url || '#';
+                          const isSuiteAnswers = task.links.some(l => l.label.includes('SuiteAnswers'));
+                          
+                          return (
+                            <div key={task.id} className="flex justify-between items-center py-2.5 border-b border-slate-100 print:py-1.5 print:border-slate-200 last:border-0 group break-inside-avoid">
+                              <div className="flex-1 pr-4">
+                                <a 
+                                  href={primaryLink}
+                                  target="_blank"
+                                  rel="noreferrer"
+                                  className="text-base font-semibold text-[#047050] hover:text-[#035940] hover:underline print:text-[#047050] print:underline inline-block print:text-sm relative z-10"
+                                >
+                                  {task.name}
+                                </a>
+                                
+                                <div className="text-xs text-slate-500 font-medium mt-0.5 flex items-center print:text-[10px] print:text-slate-600">
+                                  {task.time ? (
+                                    <><PlayCircle className="w-3.5 h-3.5 mr-1 opacity-70" /> Video Module ({task.time})</>
+                                  ) : (
+                                    <><FileText className="w-3.5 h-3.5 mr-1 opacity-70" /> {isSuiteAnswers ? 'SuiteAnswers Reference' : 'Article / Quick Read'}</>
+                                  )}
+                                </div>
+                              </div>
+                              
+                              <div className="min-w-[120px] text-right">
+                                 <span className={`inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-widest border ${STATUS_COLORS[status]} print:bg-transparent print:border-slate-400`}>
+                                   {status}
+                                 </span>
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        );
+      };
+
+      return (
+        <div className="min-h-screen bg-slate-100 pb-20">
+          <header className="bg-[#233D4C] text-white shadow-md print:hidden">
+            <div className="max-w-6xl mx-auto px-4 py-6">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-3">
+                  <div className="bg-[#047050] p-2 rounded-lg">
+                    <BookOpen className="w-6 h-6 text-white" />
+                  </div>
+                  <h1 className="text-2xl font-bold tracking-tight">Learning Journey Builder</h1>
+                </div>
+              </div>
+            </div>
+          </header>
+
+          <div className="bg-white border-b border-slate-200 shadow-sm sticky top-0 z-20 print:hidden">
+            <div className="max-w-6xl mx-auto px-4 flex overflow-x-auto">
+              <button
+                onClick={() => setActiveTab('roles')}
+                className={`px-6 py-4 font-medium text-sm flex items-center border-b-2 transition-colors whitespace-nowrap ${
+                  activeTab === 'roles' ? 'border-[#047050] text-[#047050] bg-[#047050]/5' : 'border-transparent text-slate-500 hover:text-slate-700 hover:bg-slate-50'
+                }`}
+              >
+                <span className="w-6 h-6 rounded-full bg-slate-100 inline-flex items-center justify-center mr-2 text-xs font-bold">1</span>
+                Roles Setup
+              </button>
+              <button
+                onClick={() => setActiveTab('mapping')}
+                className={`px-6 py-4 font-medium text-sm flex items-center border-b-2 transition-colors whitespace-nowrap ${
+                  activeTab === 'mapping' ? 'border-[#047050] text-[#047050] bg-[#047050]/5' : 'border-transparent text-slate-500 hover:text-slate-700 hover:bg-slate-50'
+                }`}
+              >
+                <span className="w-6 h-6 rounded-full bg-slate-100 inline-flex items-center justify-center mr-2 text-xs font-bold">2</span>
+                Task Mapping
+              </button>
+              <button
+                onClick={() => setActiveTab('output')}
+                className={`px-6 py-4 font-medium text-sm flex items-center border-b-2 transition-colors whitespace-nowrap ${
+                  activeTab === 'output' ? 'border-[#047050] text-[#047050] bg-[#047050]/5' : 'border-transparent text-slate-500 hover:text-slate-700 hover:bg-slate-50'
+                }`}
+              >
+                <span className="w-6 h-6 rounded-full bg-slate-100 inline-flex items-center justify-center mr-2 text-xs font-bold">3</span>
+                Generated Journeys
+              </button>
+            </div>
+          </div>
+
+          <main className="max-w-6xl mx-auto px-4 py-8 print:p-0 print:m-0 print:max-w-none">
+            {activeTab === 'roles' && renderRoleSetup()}
+            {activeTab === 'mapping' && renderTaskMapping()}
+            {activeTab === 'output' && renderGeneratedJourney()}
+          </main>
+        </div>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
+</body>
+</html>
